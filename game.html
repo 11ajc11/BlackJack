@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="game.css">
+        <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css?family=B612&display=swap" rel="stylesheet">
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+    </head>   
+    <body>
+    <div class="Game_Contents">
+    <div class="Cpu_Score" id="cpu_score" value=0> 
+
+    </div>
+    <div class="Cpu_Cards" id="cpu_cards">
+    
+
+
+    </div>
+    <div class="Deck" id="deck">
+        <img src="Cards_Images/boc.jfif" width=7.75% height=90%></br>
+    </div>
+    <div id="deckcount" class="centered"></div>
+    <div class="Game_Buttons" id="game_buttons">
+        <input type="number" id="wager_val" name="wager_val" min="5" value="5">
+        <input type="submit" class="btn" name="bet" id="bet" value="Bet" onclick="bet()"></br>
+        <input type="button" class="btn" id="hit" value="Hit" onclick="hitMe()" disabled>
+        <input type="button" class="btn" id="stay" value="Stay" onclick="stay()" disabled>
+        <input type="button" class="btn" id="double" value="Double" onclick="double()" disabled>
+    </div>
+    <div class="balance">Available Balance </br>
+        <input type="number" id="avail" value="100" min="0" readonly>
+    </div>
+    <div class="Player_Score" id="player_score" value= 0>
+        </div>
+    <div class="Player_Cards" id="player_cards">
+    
+    
+        
+
+    </div>
+    <div class="Status" id="status">Make a wager</div>
+    
+    <div class="Background_Buttons">
+
+    Background Color
+    <button type="button" class="btn2" id="blue" onclick="BlueBack()">Teal</button>
+    <button type="button" class="btn2" id="green" onclick="GreenBack()">Green</button>
+    <button type="button" class="btn2" id="red" onclick="RedBack()">Red</button>
+    <button type="button" class="btn2" id="pink" onclick="PinkBack()">Pink</button>
+    <input type="color" id="newColor"  class="btn2" onchange="setBackColor()">Custom
+
+    </div>
+    <script src="game.js" async defer></script>
+    </body>
+    </html>
