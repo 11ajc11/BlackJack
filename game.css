@@ -161,7 +161,7 @@ img{
     font-family: 'B612', sans-serif;
     position: absolute;
     top: 56%;
-    left: 50%;
+    left: 45%;
     margin-left: -84px;
     
 }
@@ -219,5 +219,6 @@ div{
     background-color: transparent;
     border: none;
     color: white;
+    width: 10%;
 }
 
