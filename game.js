@@ -231,6 +231,10 @@ function double() {
         handend();
         document.getElementById('wager_val').value = parseInt(document.getElementById("wager_val").value)/2;
     }
+    if(document.getElementById("avail").value <= 0){
+        //window.alert("Game Over");
+        endgame();
+    }
 }
 
 //compare scores when no busts
