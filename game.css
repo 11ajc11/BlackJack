@@ -177,6 +177,7 @@ img{
     background-color: transparent;
     color: white;
     border: 1pt solid black;
+    overflow: hidden;
 }
 
 #red{
@@ -216,11 +217,11 @@ div{
 
 
 #avail{
-    text-align: center;
+    text-align: left;
     background-color: transparent;
     border: none;
     color: white;
-    width: 10%;
+    width: 20%;
     font-family: 'B612', sans-serif;
 }
 
