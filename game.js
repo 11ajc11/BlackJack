@@ -74,6 +74,9 @@ function bet() {
         alert("shuffling the deck");
     }
     deal();
+    if (parseInt(document.getElementById("wager_val").value) > (parseInt(document.getElementById("avail").value))){
+        document.getElementById("double").disabled = true;
+    }
 }
 
 //deals hand out, checks for branches of results
