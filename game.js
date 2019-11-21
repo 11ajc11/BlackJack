@@ -48,6 +48,10 @@ function bet() {
         document.getElementById('status').innerHTML = "Your wager is more than your available";
         return;
     }
+    if (parseInt(document.getElementById("wager_val").value) < 0){
+        document.getElementById('status').innerHTML = "Your wager is negative";
+        return;
+    }
     handstart();
     //remove all cards from hands
     const myNode = document.getElementById("player_cards");
