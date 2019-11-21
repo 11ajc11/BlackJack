@@ -7,6 +7,7 @@ html {
  
 
 body{
+    font-family: 'B612', sans-serif;
     background-color: teal;
     color: white;
     margin: 0px;
@@ -59,7 +60,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 #player_score{
     left:5%;
-    top: 75%;
+    top: 70%;
     position: absolute;
     text-align: center;
     font-size: 80pt;
@@ -83,7 +84,7 @@ input[type=number]::-webkit-inner-spin-button {
     height: 25%;
     width: 80%;
     left: 10%;
-    top: 75%;
+    top: 73%;
     position: absolute;
 
 }
@@ -92,7 +93,7 @@ input[type=number]::-webkit-inner-spin-button {
     left: 5%;
     position: absolute;
     text-align: center;
-    top: 5%;
+    top: 10%;
     font-size: 80pt;
     font-family: 'B612', sans-serif;
     text-shadow: 0 1px 0 #ccc,
@@ -113,7 +114,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 .Cpu_Cards{
     height: 25%;
-    top: 5%;
+    top: 7%;
     width: 80%;
     padding-left: 10%;
     position: absolute;
@@ -160,8 +161,8 @@ img{
     background-color: transparent;
     font-family: 'B612', sans-serif;
     position: absolute;
-    top: 56%;
-    left: 45%;
+    top: 58%;
+    left: 44%;
     margin-left: -84px;
     
 }
@@ -210,7 +211,7 @@ div{
 
 .Background_Buttons{
     position: fixed;
-    top: 96%;
+    top: 95%;
 }
 
 
@@ -220,5 +221,6 @@ div{
     border: none;
     color: white;
     width: 10%;
+    font-family: 'B612', sans-serif;
 }
 
