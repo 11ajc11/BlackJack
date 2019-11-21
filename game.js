@@ -41,6 +41,37 @@ function shuffledeck(d2s){
 
 shuffledeck(deck);
 
+//start hand, shuffle if low on cards, check if bet is to much
+function bet() {
+    //check if wager > avail
+    if (parseInt(document.getElementById("wager_val").value) > parseInt(document.getElementById("avail").value)){
+        document.getElementById('status').innerHTML = "Your wager is more than your available";
+        return;
+    }
+    handstart();
+    //remove all cards from hands
+    const myNode = document.getElementById("player_cards");
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+    const cpuNode = document.getElementById("cpu_cards");
+    while (cpuNode.firstChild) {
+        cpuNode.removeChild(cpuNode.firstChild);
+    }
+    player.P_Points = 0;
+    comp.C_Points = 0;
+    document.getElementById('status').innerHTML = "Bet = " + document.getElementById("wager_val").value;
+    document.getElementById("avail").value = document.getElementById("avail").value - document.getElementById("wager_val").value;
+    //shuffle if low on cards
+    if (deck.length <= 15){
+        deck = new Array();
+        createdeck();
+        shuffledeck(deck);
+        alert("shuffling the deck");
+    }
+    deal();
+}
+
 //deals hand out, checks for branches of results
 function deal(){
     document.getElementById('cpu_score').innerHTML = "";
@@ -101,6 +132,54 @@ function deal(){
     checkcpu();
 }
 
+//add insurance buttons
+function insurance(){
+    console.log("Insurance?");
+    insure = document.createElement("input");
+    insure.setAttribute("type", "button")
+    insure.setAttribute("value", "Insurance?");
+    insure.setAttribute("class", "btn");
+    insure.setAttribute("id", "insurance");
+    insure.setAttribute("onclick", "insure1()");
+    document.getElementById("game_buttons").appendChild(insure);
+    noinsure = document.createElement("input");
+    noinsure.setAttribute("type", "button")
+    noinsure.setAttribute("value", "No Thanks");
+    noinsure.setAttribute("class", "btn");
+    noinsure.setAttribute("id", "noinsureance");
+    noinsure.setAttribute("onclick", "noin()")
+    document.getElementById("game_buttons").appendChild(noinsure);
+    document.getElementById("hit").disabled = true;
+    document.getElementById("stay").disabled = true;
+    document.getElementById("double").disabled = true;
+}
+
+//remove insurance buttons
+function insure1(){
+    ntd = document.getElementById("game_buttons");
+    ntd.removeChild(ntd.lastChild);
+    ntd.removeChild(ntd.lastChild);
+    updateavail(".5");
+    handend();
+}
+
+//didnt accept insurance
+function noin(){
+    ntd = document.getElementById("game_buttons");
+    ntd.removeChild(ntd.lastChild);
+    ntd.removeChild(ntd.lastChild);
+    //end if computer got 21
+    if (comp.C_Points == 21){
+        handend();
+    }
+    //normal play else
+    else{
+        document.getElementById("hit").disabled = false;
+        document.getElementById("stay").disabled = false;
+        document.getElementById("double").disabled = false;
+    }
+}
+
 //hit player when pressed
 function hitMe() {
     console.log("Hit Me");
@@ -120,43 +199,6 @@ function hitMe() {
     updateDeck();
     check();
     document.getElementById('player_score').innerHTML = player.P_Points;
-}
-
-//update number of cards left
-function updateDeck() {
-    document.getElementById('deckcount').innerHTML = deck.length + " Cards Left";
-}
-
-//computers full turn
-function comp_turn() {
-    console.log("my turn");
-    flipandshow();
-    checkcpu();
-    hitcpu();
-    checkscores();
-    document.getElementById('cpu_score').innerHTML = comp.C_Points;
-}
-
-//compare scores when no busts
-function checkscores(){
-    //player wins
-    if (player.P_Points > comp.C_Points){
-        updateavail("2");
-        document.getElementById('status').innerHTML = "You win " + (parseInt(document.getElementById("wager_val").value)*2);
-    }
-    //tie
-    if (player.P_Points == comp.C_Points){
-        updateavail("1");
-        document.getElementById('status').innerHTML = "Push";
-    }
-    //comp wins
-    if ((player.P_Points < comp.C_Points) & comp.C_Points <= 21){
-        document.getElementById('status').innerHTML = "Dealer wins";
-        if(document.getElementById("avail").value <= 0){
-            //window.alert("Game Over");
-            endgame();
-        }
-    }
 }
 
 //end turn and switch to computer
@@ -184,36 +226,26 @@ function double() {
     }
 }
 
-
-//start hand, shuffle if low on cards, check if bet is to much
-function bet() {
-    //check if wager > avail
-    if (parseInt(document.getElementById("wager_val").value) > parseInt(document.getElementById("avail").value)){
-        document.getElementById('status').innerHTML = "Your wager is more than your available";
-        return;
+//compare scores when no busts
+function checkscores(){
+    //player wins
+    if (player.P_Points > comp.C_Points){
+        updateavail("2");
+        document.getElementById('status').innerHTML = "You win " + (parseInt(document.getElementById("wager_val").value)*2);
     }
-    handstart();
-    //remove all cards from hands
-    const myNode = document.getElementById("player_cards");
-    while (myNode.firstChild) {
-        myNode.removeChild(myNode.firstChild);
+    //tie
+    if (player.P_Points == comp.C_Points){
+        updateavail("1");
+        document.getElementById('status').innerHTML = "Push";
     }
-    const cpuNode = document.getElementById("cpu_cards");
-    while (cpuNode.firstChild) {
-        cpuNode.removeChild(cpuNode.firstChild);
+    //comp wins
+    if ((player.P_Points < comp.C_Points) & comp.C_Points <= 21){
+        document.getElementById('status').innerHTML = "Dealer wins";
+        if(document.getElementById("avail").value <= 0){
+            //window.alert("Game Over");
+            endgame();
+        }
     }
-    player.P_Points = 0;
-    comp.C_Points = 0;
-    document.getElementById('status').innerHTML = "Bet = " + document.getElementById("wager_val").value;
-    document.getElementById("avail").value = document.getElementById("avail").value - document.getElementById("wager_val").value;
-    //shuffle if low on cards
-    if (deck.length <= 15){
-        deck = new Array();
-        createdeck();
-        shuffledeck(deck);
-        alert("shuffling the deck");
-    }
-    deal();
 }
 
 //check if player bust, fix aces if need to
@@ -273,23 +305,42 @@ function endgame(){
     ,500)
 }
 
-//change back colors
-function RedBack() {
-    document.body.style.backgroundColor = "red";
-  }
+//open buttons
+function handstart(){
+    document.getElementById("hit").disabled = false;
+    document.getElementById("stay").disabled = false;
+    document.getElementById("double").disabled = false;
+    document.getElementById("bet").disabled = true;
+    document.getElementById("wager_val").disabled = true;
+}
 
-function BlueBack() {
-    document.body.style.backgroundColor = "teal";
-  }
+//disable buttons and show comp cards
+function handend(){
+    document.getElementById('player_score').innerHTML = player.P_Points;
+    document.getElementById("hit").disabled = true;
+    document.getElementById("stay").disabled = true;
+    document.getElementById("double").disabled = true;
+    document.getElementById("bet").disabled = false;
+    document.getElementById("wager_val").disabled = false;
+    flipandshow();
+}
 
-function GreenBack() {
-    document.body.style.backgroundColor = "green";
-  }
+//computers full turn
+function comp_turn() {
+    console.log("my turn");
+    flipandshow();
+    checkcpu();
+    hitcpu();
+    checkscores();
+    document.getElementById('cpu_score').innerHTML = comp.C_Points;
+}
 
-function PinkBack() {
-    document.body.style.backgroundColor = "pink";
-
-  }
+//flip computers cards and show computer points
+function flipandshow(){
+    elem = document.getElementById("cpu_cards").children;
+    elem[0].setAttribute("src", elem[0].getAttribute("msrc"));
+    document.getElementById('cpu_score').innerHTML = comp.C_Points;
+}
 
 //check computer bust, fix aces if need to
 function checkcpu(){
@@ -334,78 +385,9 @@ function hitcpu() {
     }
 }
 
-//set back color to color selection
-function setBackColor() {
-    var x = document.getElementById("newColor").value;
-    document.body.style.backgroundColor = x;
-  }
-
-//disable buttons and show comp cards
-function handend(){
-    document.getElementById('player_score').innerHTML = player.P_Points;
-    document.getElementById("hit").disabled = true;
-    document.getElementById("stay").disabled = true;
-    document.getElementById("double").disabled = true;
-    document.getElementById("bet").disabled = false;
-    document.getElementById("wager_val").disabled = false;
-    flipandshow();
-}
-
-//open buttons
-function handstart(){
-    document.getElementById("hit").disabled = false;
-    document.getElementById("stay").disabled = false;
-    document.getElementById("double").disabled = false;
-    document.getElementById("bet").disabled = true;
-    document.getElementById("wager_val").disabled = true;
-}
-
-//remove insurance buttons
-function insure1(){
-    ntd = document.getElementById("game_buttons");
-    ntd.removeChild(ntd.lastChild);
-    ntd.removeChild(ntd.lastChild);
-    updateavail(".5");
-    handend();
-}
-
-//didnt accept insurance
-function noin(){
-    ntd = document.getElementById("game_buttons");
-    ntd.removeChild(ntd.lastChild);
-    ntd.removeChild(ntd.lastChild);
-    //end if computer got 21
-    if (comp.C_Points == 21){
-        handend();
-    }
-    //normal play else
-    else{
-        document.getElementById("hit").disabled = false;
-        document.getElementById("stay").disabled = false;
-        document.getElementById("double").disabled = false;
-    }
-}
-
-//add insurance buttons
-function insurance(){
-    console.log("Insurance?");
-    insure = document.createElement("input");
-    insure.setAttribute("type", "button")
-    insure.setAttribute("value", "Insurance?");
-    insure.setAttribute("class", "btn");
-    insure.setAttribute("id", "insurance");
-    insure.setAttribute("onclick", "insure1()");
-    document.getElementById("game_buttons").appendChild(insure);
-    noinsure = document.createElement("input");
-    noinsure.setAttribute("type", "button")
-    noinsure.setAttribute("value", "No Thanks");
-    noinsure.setAttribute("class", "btn");
-    noinsure.setAttribute("id", "noinsureance");
-    noinsure.setAttribute("onclick", "noin()")
-    document.getElementById("game_buttons").appendChild(noinsure);
-    document.getElementById("hit").disabled = true;
-    document.getElementById("stay").disabled = true;
-    document.getElementById("double").disabled = true;
+//update number of cards left
+function updateDeck() {
+    document.getElementById('deckcount').innerHTML = deck.length + " Cards Left";
 }
 
 //update available balance
@@ -426,13 +408,26 @@ function makeelem(card){
     return(elem);
 }
 
+//change back colors
+function RedBack() {
+    document.body.style.backgroundColor = "red";
+  }
 
+function BlueBack() {
+    document.body.style.backgroundColor = "teal";
+  }
 
+function GreenBack() {
+    document.body.style.backgroundColor = "green";
+  }
 
-//flip computers cards and show computer points
-function flipandshow(){
-    elem = document.getElementById("cpu_cards").children;
-    elem[0].setAttribute("src", elem[0].getAttribute("msrc"));
-    document.getElementById('cpu_score').innerHTML = comp.C_Points;
-}
+function PinkBack() {
+    document.body.style.backgroundColor = "pink";
 
+  }
+
+  //set back color to color selection
+function setBackColor() {
+    var x = document.getElementById("newColor").value;
+    document.body.style.backgroundColor = x;
+  }
